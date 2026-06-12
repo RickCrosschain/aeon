@@ -1,0 +1,192 @@
+'use client'
+
+import { useState, useEffect, useCallback } from 'react'
+import type { Skill, Run, Secret, SkillOutput, GatewayProvider, UploadFile, AnalyticsData } from '../lib/types'
+import { MODELS, AUTH_SECRETS } from '../lib/constants'
+import { displayName } from '../lib/utils'
+import TargetCursor from '../components/ui/TargetCursor'
+import { LoadingScreen } from '../components/LoadingScreen'
+import { ErrorScreen } from '../components/ErrorScreen'
+import { LeftSidebar } from '../components/LeftSidebar'
+import { TopBar } from '../components/TopBar'
+import { HQOverview } from '../components/HQOverview'
+import { SkillDetail } from '../components/SkillDetail'
+import { SecretsPanel } from '../components/SecretsPanel'
+import { StrategyPanel, type StrategySources } from '../components/StrategyPanel'
+import { SoulPanel, type SoulFile, type SoulSources } from '../components/SoulPanel'
+import { McpPanel } from '../components/McpPanel'
+import { RightPanel } from '../components/RightPanel'
+import { ImportModal } from '../components/ImportModal'
+import { AuthModal } from '../components/AuthModal'
+
+export default function Dashboard() {
+  const [view, setView] = useState<'hq' | 'secrets' | 'strategy' | 'mcp' | 'soul'>('hq')
+  const [selectedSkill, setSelectedSkill] = useState<string | null>(null)
+  const [secretFocus, setSecretFocus] = useState<string | null>(null)
+  // Shared with the sidebar's category chips — HQ category cards toggle it too.
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null)
+
+  const [skills, setSkills] = useState<Skill[]>([])
+  const [runs, setRuns] = useState<Run[]>([])
+  const [secrets, setSecrets] = useState<Secret[]>([])
+  const [model, setModel] = useState('claude-sonnet-4-6')
+  const [gateway, setGateway] = useState<GatewayProvider>('auto')
+  const [repo, setRepo] = useState('')
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+
+  const [busy, setBusy] = useState<Record<string, boolean>>({})
+  const [toast, setToast] = useState('')
+  const [hasChanges, setHasChanges] = useState(false)
+  const [syncing, setSyncing] = useState(false)
+  const [pulling, setPulling] = useState(false)
+  const [behind, setBehind] = useState(0)
+  const [feedKey, setFeedKey] = useState(0)
+
+  const [outputs, setOutputs] = useState<SkillOutput[]>([])
+  const [feedLoading, setFeedLoading] = useState(false)
+  const [analyticsData, setAnalyticsData] = useState<AnalyticsData | null>(null)
+
+  const [showImport, setShowImport] = useState(false)
+  const [authLoading, setAuthLoading] = useState(false)
+  const [showAuthModal, setShowAuthModal] = useState(false)
+
+  const [strategy, setStrategy] = useState('')
+  const [strategyLoaded, setStrategyLoaded] = useState(false)
+  const [strategySaving, setStrategySaving] = useState(false)
+  const [strategyBuilding, setStrategyBuilding] = useState(false)
+  const [mcpServers, setMcpServers] = useState<Record<string, Record<string, unknown>>>({})
+  const [mcpLoaded, setMcpLoaded] = useState(false)
+  const [mcpSaving, setMcpSaving] = useState(false)
+  const [soul, setSoul] = useState('')
+  const [soulStyle, setSoulStyle] = useState('')
+  const [soulLoaded, setSoulLoaded] = useState(false)
+  const [soulSaving, setSoulSaving] = useState(false)
+  const [soulBuilding, setSoulBuilding] = useState(false)
+  const [soulInstalling, setSoulInstalling] = useState<string | null>(null)
+
+  const flash = (msg: string) => { setToast(msg); setTimeout(() => setToast(''), 3000) }
+  // Config writes auto-commit+push in local mode (no-op in hosted mode). Reflect
+  // the result: clear the "needs Sync" nudge on success, raise it only if the
+  // push failed (e.g. behind origin/main → resolve via the manual Sync button).
+  const flashSynced = (base: string, d: { synced?: boolean }) => {
+    const failed = d?.synced === false
+    setHasChanges(failed)
+    flash(failed ? `${base} · saved locally, not pushed` : base)
+  }
+
+  // --- API ---
+  const fetchData = useCallback(async () => {
+    try { const [sr, rr, secr] = await Promise.all([fetch('/api/skills'), fetch('/api/runs'), fetch('/api/secrets')]); if (sr.ok) { const d = await sr.json(); setSkills(d.skills); if (d.model) setModel(d.model); if (d.gateway?.provider) setGateway(d.gateway.provider); if (d.repo) setRepo(d.repo) }; if (rr.ok) setRuns((await rr.json()).runs); if (secr.ok) { const d = await secr.json(); if (d.secrets) setSecrets(d.secrets) } } catch (e: unknown) { setError(e instanceof Error ? e.message : 'Failed to connect') } finally { setLoading(false) }
+    try { const r = await fetch('/api/sync'); if (r.ok) { const d = await r.json(); setHasChanges(d.hasChanges); if (typeof d.behind === 'number') setBehind(d.behind) } } catch {}
+    // Preload MCP servers so each skill's "MCP servers" panel can show install state.
+    try { const r = await fetch('/api/mcp'); if (r.ok) { const d = await r.json(); setMcpServers(d.servers || {}); setMcpLoaded(true) } } catch {}
+  }, [])
+  const refreshRuns = useCallback(async () => { try { const r = await fetch('/api/runs'); if (r.ok) setRuns((await r.json()).runs) } catch {} }, [])
+  useEffect(() => { fetchData() }, [fetchData])
+  useEffect(() => { const id = setInterval(refreshRuns, 10_000); return () => clearInterval(id) }, [refreshRuns])
+  useEffect(() => { setFeedLoading(true); fetch('/api/outputs').then(r => r.ok ? r.json() : { outputs: [] }).then(d => setOutputs(d.outputs || [])).finally(() => setFeedLoading(false)) }, [feedKey])
+  useEffect(() => { if (view === 'strategy' && !strategyLoaded) { fetch('/api/strategy').then(r => r.ok ? r.json() : null).then(d => { if (d) { setStrategy(d.content || ''); setStrategyLoaded(true) } }).catch(() => {}) } }, [view, strategyLoaded])
+  useEffect(() => { if (view === 'mcp' && !mcpLoaded) { fetch('/api/mcp').then(r => r.ok ? r.json() : null).then(d => { if (d) { setMcpServers(d.servers || {}); setMcpLoaded(true) } }).catch(() => {}) } }, [view, mcpLoaded])
+  useEffect(() => { if (view === 'soul' && !soulLoaded) { fetch('/api/soul').then(r => r.ok ? r.json() : null).then(d => { if (d) { setSoul(d.soul?.content || ''); setSoulStyle(d.style?.content || ''); setSoulLoaded(true) } }).catch(() => {}) } }, [view, soulLoaded])
+
+  const toggleSkill = async (n: string, en: boolean) => { setBusy(b => ({ ...b, [n]: true })); try { const r = await fetch('/api/skills', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n, enabled: en }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setSkills(s => s.map(sk => sk.name === n ? { ...sk, enabled: en } : sk)); flashSynced(`${displayName(n)} ${en ? 'on duty' : 'off duty'}`, d) } } finally { setBusy(b => ({ ...b, [n]: false })) } }
+  const runSkill = async (n: string, v?: string, sm?: string) => { setBusy(b => ({ ...b, [`r-${n}`]: true })); try { const r = await fetch(`/api/skills/${n}/run`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ var: v || '', model: sm || model }) }); if (r.ok) { flash(`${displayName(n)} started`); for (const d of [2000, 5000, 10000]) setTimeout(refreshRuns, d) } else { const d = await r.json(); flash(d.error || 'Failed') } } finally { setBusy(b => ({ ...b, [`r-${n}`]: false })) } }
+  const updateSchedule = async (n: string, s: string) => { try { const r = await fetch('/api/skills', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n, schedule: s }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setSkills(sk => sk.map(x => x.name === n ? { ...x, schedule: s } : x)); flashSynced('Shift updated', d) } } catch {} }
+  const updateVar = async (n: string, v: string) => { try { const r = await fetch('/api/skills', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n, var: v }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setSkills(s => s.map(x => x.name === n ? { ...x, var: v } : x)); flashSynced('Brief updated', d) } } catch {} }
+  const updateSkillModel = async (n: string, m: string) => { try { const r = await fetch('/api/skills', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n, skillModel: m }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setSkills(s => s.map(x => x.name === n ? { ...x, model: m } : x)); flashSynced('Capability updated', d) } } catch {} }
+  const updateModel = async (m: string) => { setModel(m); try { const r = await fetch('/api/skills', { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: m }) }); const d = await r.json().catch(() => ({})); flashSynced(`Default: ${MODELS.find(x => x.id === m)?.label}`, d) } catch {} }
+  const deleteSkill = async (n: string) => { setBusy(b => ({ ...b, [`d-${n}`]: true })); try { const r = await fetch('/api/skills', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setSkills(s => s.filter(x => x.name !== n)); setSelectedSkill(null); flashSynced(`${displayName(n)} removed`, d) } } finally { setBusy(b => ({ ...b, [`d-${n}`]: false })) } }
+  const syncToGithub = async () => { setSyncing(true); try { const r = await fetch('/api/sync', { method: 'POST' }); if (r.ok) { flash('Synced'); setHasChanges(false) } } finally { setSyncing(false) } }
+  const pullFromGithub = async () => { setPulling(true); try { const r = await fetch('/api/outputs', { method: 'POST' }); if (r.ok) { flash('Pulled'); setFeedKey(k => k + 1); fetchData() } } finally { setPulling(false) } }
+  const setupAuth = async (auth?: string | { key: string, baseUrl?: string, provider?: string }) => { setAuthLoading(true); try { const body = typeof auth === 'string' ? { key: auth } : (auth || {}); const r = await fetch('/api/auth', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); if (r.ok) { flash('Authenticated'); setShowAuthModal(false); fetchData() } else { const d = await r.json().catch(() => ({} as { error?: string })); const msg = typeof d?.error === 'string' ? d.error : (auth ? 'Auth failed' : 'Auto-setup failed'); if (!auth) setShowAuthModal(true); flash(msg) } } finally { setAuthLoading(false) } }
+  const saveSecret = async (n: string, value: string) => { setBusy(b => ({ ...b, [`sec-${n}`]: true })); try { const r = await fetch('/api/secrets', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n, value }) }); if (r.ok) { setSecrets(s => { const e = s.some(x => x.name === n); if (e) return s.map(x => x.name === n ? { ...x, isSet: true } : x); return [...s, { name: n, group: 'Skill Keys', description: 'Custom', isSet: true }] }); flash(`${n} saved`) } } finally { setBusy(b => ({ ...b, [`sec-${n}`]: false })) } }
+  const deleteSecret = async (n: string) => { setBusy(b => ({ ...b, [`sec-${n}`]: true })); try { const r = await fetch('/api/secrets', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: n }) }); if (r.ok) { setSecrets(s => s.map(x => x.name === n ? { ...x, isSet: false } : x)); flash(`${n} removed`) } } finally { setBusy(b => ({ ...b, [`sec-${n}`]: false })) } }
+  const importSkill = async (files: UploadFile[], name?: string) => { const r = await fetch('/api/upload', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ files, name }) }); if (r.ok) { const d = await r.json(); flash(`${displayName(d.name)} hired`); fetchData() } }
+  const saveStrategy = async (content: string) => { setStrategySaving(true); try { const r = await fetch('/api/strategy', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ content }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setStrategy(content); flashSynced('Strategy saved', d) } else { flash('Save failed') } } finally { setStrategySaving(false) } }
+  const buildStrategy = async (sources: StrategySources) => { setStrategyBuilding(true); try { const r = await fetch('/api/strategy/build', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...sources, model }) }); if (r.ok) { flash('Strategy-builder started'); for (const d of [2000, 5000, 10000]) setTimeout(refreshRuns, d) } else { const d = await r.json().catch(() => ({} as { error?: string })); flash(d.error || 'Build failed to dispatch') } } finally { setStrategyBuilding(false) } }
+  const saveMcp = async (servers: Record<string, Record<string, unknown>>) => { setMcpSaving(true); try { const r = await fetch('/api/mcp', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ servers }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setMcpServers(servers); flashSynced('MCP servers saved', d) } else { flash('Save failed') } } finally { setMcpSaving(false) } }
+  const saveSoul = async (file: SoulFile, content: string) => { setSoulSaving(true); try { const r = await fetch('/api/soul', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ file, content }) }); if (r.ok) { const d = await r.json().catch(() => ({})); if (file === 'soul') setSoul(content); else setSoulStyle(content); flashSynced(`${file === 'soul' ? 'SOUL.md' : 'STYLE.md'} saved`, d) } else { flash('Save failed') } } finally { setSoulSaving(false) } }
+  const buildSoul = async (sources: SoulSources) => { setSoulBuilding(true); try { const r = await fetch('/api/soul/build', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...sources, model }) }); if (r.ok) { const label = sources.handle ? `@${sources.handle}` : sources.name || 'your links'; flash(`Soul-builder started for ${label}`); for (const d of [2000, 5000, 10000]) setTimeout(refreshRuns, d) } else { const d = await r.json().catch(() => ({} as { error?: string })); flash(d.error || 'Build failed to dispatch') } } finally { setSoulBuilding(false) } }
+  const installSoulExample = async (key: string) => { setSoulInstalling(key); try { const r = await fetch('/api/soul/examples', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ example: key }) }); if (r.ok) { const d = await r.json().catch(() => ({})); setSoul(d.soul || ''); setSoulStyle(d.style || ''); setSoulLoaded(true); flashSynced(`Installed ${key} soul`, d) } else { const d = await r.json().catch(() => ({} as { error?: string })); flash(d.error || 'Install failed') } } finally { setSoulInstalling(null) } }
+
+  // Jump from a skill's API-keys panel straight to Settings → Access Keys,
+  // scrolled to the chosen key with its input open and ready to paste.
+  const goToSecret = (name: string) => { setSelectedSkill(null); setView('secrets'); setSecretFocus(name) }
+  const goToMcp = () => { setSelectedSkill(null); setView('mcp') }
+
+  // --- Derived ---
+  const skill = selectedSkill ? skills.find(s => s.name === selectedSkill) || null : null
+  // Any model/provider key set means Aeon can authenticate — the "Auth" CTA hides.
+  // Derived from live `secrets` so it reacts the instant a key is saved or removed.
+  const hasModelKey = secrets.some(s => s.isSet && AUTH_SECRETS.includes(s.name))
+  const enabledCount = skills.filter(s => s.enabled).length
+  const workingCount = runs.filter(r => r.status === 'in_progress').length
+
+  if (loading) return <LoadingScreen />
+  if (error) return <ErrorScreen error={error} />
+
+  return (
+    <div className="h-screen flex bg-aeon-bg text-aeon-fg">
+      <TargetCursor />
+      {toast && <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-aeon-fg text-aeon-bg px-5 py-2.5 text-xs font-mono uppercase tracking-[0.18em] shadow-xl">{toast}</div>}
+
+      <LeftSidebar
+        view={view} setView={(v) => { setView(v); setSelectedSkill(null) }}
+        selectedSkill={selectedSkill} setSelectedSkill={setSelectedSkill}
+        skills={skills} runs={runs} secrets={secrets} repo={repo}
+        enabledCount={enabledCount} workingCount={workingCount}
+        categoryFilter={categoryFilter} setCategoryFilter={setCategoryFilter}
+        onSkillSelect={(name) => { setSelectedSkill(name); setView('hq') }}
+        onShowImport={() => setShowImport(true)}
+      />
+
+      <div className="flex-1 flex flex-col min-w-0">
+        <TopBar
+          skill={skill} view={view} repo={repo} model={model} gateway={gateway}
+          hasModelKey={hasModelKey} authLoading={authLoading}
+          pulling={pulling} syncing={syncing} hasChanges={hasChanges} behind={behind}
+          onSetupAuth={() => setShowAuthModal(true)} onUpdateModel={updateModel}
+          onPull={pullFromGithub} onSync={syncToGithub}
+        />
+
+        <div className="flex-1 overflow-y-auto p-[var(--space-lg)]">
+          {view === 'secrets' && !selectedSkill && (
+            <SecretsPanel secrets={secrets} skills={skills} busy={busy} repo={repo} focusKey={secretFocus} onFocusHandled={() => setSecretFocus(null)} onSave={saveSecret} onDelete={deleteSecret} onSelectSkill={(name) => { setSelectedSkill(name); setView('hq') }} onConnectClaude={() => setupAuth()} connecting={authLoading} />
+          )}
+          {view === 'strategy' && !selectedSkill && (
+            <StrategyPanel content={strategy} loading={!strategyLoaded} saving={strategySaving} building={strategyBuilding} onSave={saveStrategy} onBuild={buildStrategy} />
+          )}
+          {view === 'mcp' && !selectedSkill && (
+            <McpPanel servers={mcpServers} loading={!mcpLoaded} saving={mcpSaving} secrets={secrets} busy={busy} onSave={saveMcp} onSetSecret={saveSecret} onDeleteSecret={deleteSecret} />
+          )}
+          {view === 'soul' && !selectedSkill && (
+            <SoulPanel soul={soul} style={soulStyle} loading={!soulLoaded} saving={soulSaving} building={soulBuilding} installing={soulInstalling} onSave={saveSoul} onBuild={buildSoul} onInstallExample={installSoulExample} />
+          )}
+          {view === 'hq' && !selectedSkill && (
+            <HQOverview skills={skills} runs={runs} enabledCount={enabledCount} workingCount={workingCount} categoryFilter={categoryFilter} onCategoryClick={(key) => setCategoryFilter(categoryFilter === key ? null : key)} onViewRun={() => {}} />
+          )}
+          {skill && (
+            <SkillDetail
+              skill={skill} runs={runs} model={model} secrets={secrets} mcpServers={mcpServers} busy={busy}
+              onToggle={toggleSkill} onRun={runSkill} onDelete={deleteSkill}
+              onUpdateSchedule={updateSchedule} onUpdateVar={updateVar} onUpdateModel={updateSkillModel}
+              onGoToSecret={goToSecret} onGoToMcp={goToMcp}
+              onViewRun={() => {}}
+            />
+          )}
+        </div>
+      </div>
+
+      <RightPanel
+        runs={runs} outputs={outputs} feedLoading={feedLoading} analyticsData={analyticsData}
+        onViewRun={() => {}}
+        onRefresh={() => { fetchData(); setFeedKey(k => k + 1); setAnalyticsData(null) }}
+        onFetchAnalytics={() => { if (!analyticsData) fetch('/api/analytics').then(r => r.ok ? r.json() : null).then(d => { if (d) setAnalyticsData(d) }) }}
+      />
+
+      {showImport && <ImportModal onClose={() => setShowImport(false)} onImport={importSkill} />}
+      {showAuthModal && <AuthModal loading={authLoading} onClose={() => setShowAuthModal(false)} onAuth={(auth) => setupAuth(auth)} />}
+    </div>
+  )
+}

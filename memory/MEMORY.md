@@ -21,5 +21,5 @@
 - Always save files AND commit before logging
 
 ## Next Priorities
-- Configure notification channels (Telegram, Discord, or Slack)
+- ✅ Telegram configured & verified working (bot @aeonrickbot, 2026-06-19) — inbound poll + outbound notify both live
 - Run first digest

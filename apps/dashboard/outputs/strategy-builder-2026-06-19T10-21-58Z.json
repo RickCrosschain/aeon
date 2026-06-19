@@ -1,0 +1,104 @@
+{
+  "root": "card_main",
+  "state": {},
+  "elements": {
+    "card_main": {
+      "type": "Card",
+      "props": {
+        "title": "Strategy Drafted"
+      },
+      "children": [
+        "stack_main"
+      ]
+    },
+    "stack_main": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "text_northstar",
+        "text_meta",
+        "stack_sources",
+        "separator1",
+        "text_bet",
+        "separator2",
+        "text_cta"
+      ]
+    },
+    "text_northstar": {
+      "type": "Text",
+      "props": {
+        "text": "North-star: monthly trading-fee revenue toward $50k/mo, measured by funded active traders",
+        "variant": "body"
+      }
+    },
+    "text_meta": {
+      "type": "Text",
+      "props": {
+        "text": "Priorities: 5 · Audience: technical founder building for conviction-driven crypto traders",
+        "variant": "body"
+      }
+    },
+    "stack_sources": {
+      "type": "Stack",
+      "props": {
+        "direction": "horizontal",
+        "gap": "sm"
+      },
+      "children": [
+        "text_sources_intro",
+        "link_gg",
+        "text_sources_repo"
+      ]
+    },
+    "text_sources_intro": {
+      "type": "Text",
+      "props": {
+        "text": "Sources: goal + product site",
+        "variant": "body"
+      }
+    },
+    "link_gg": {
+      "type": "Link",
+      "props": {
+        "label": "gg.xyz",
+        "href": "https://gg.xyz"
+      }
+    },
+    "text_sources_repo": {
+      "type": "Text",
+      "props": {
+        "text": "— repo ggQuest/gg-app unreadable (private/404)",
+        "variant": "body"
+      }
+    },
+    "separator1": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "text_bet": {
+      "type": "Text",
+      "props": {
+        "text": "The bet: stop chasing signups and fix the signup→deposit→first-trade leak, with on-chain reputation as the moat against fomo.",
+        "variant": "body"
+      }
+    },
+    "separator2": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "text_cta": {
+      "type": "Text",
+      "props": {
+        "text": "Review + edit in the dashboard Strategy tab, then Pull to refresh.",
+        "variant": "lead"
+      }
+    }
+  }
+}

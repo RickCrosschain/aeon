@@ -1,0 +1,113 @@
+{
+  "root": "card-root",
+  "state": {},
+  "elements": {
+    "card-root": {
+      "type": "Card",
+      "props": {
+        "title": "heartbeat"
+      },
+      "children": [
+        "alert-status",
+        "separator-1",
+        "metrics-grid",
+        "separator-2",
+        "details-stack"
+      ]
+    },
+    "alert-status": {
+      "type": "Alert",
+      "props": {
+        "title": "🔴 DEGRADED",
+        "type": "error"
+      }
+    },
+    "separator-1": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "metrics-grid": {
+      "type": "Grid",
+      "props": {
+        "columns": 3,
+        "gap": "md"
+      },
+      "children": [
+        "stat-consecutive-fails",
+        "stat-success-rate",
+        "stat-last-success"
+      ]
+    },
+    "stat-consecutive-fails": {
+      "type": "Stat",
+      "props": {
+        "label": "Consecutive Failed Runs",
+        "value": "54"
+      }
+    },
+    "stat-success-rate": {
+      "type": "Stat",
+      "props": {
+        "label": "Success Rate",
+        "value": "2%",
+        "trend": "down"
+      }
+    },
+    "stat-last-success": {
+      "type": "Stat",
+      "props": {
+        "label": "Last Real Success",
+        "value": "2026-06-12"
+      }
+    },
+    "separator-2": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "details-stack": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "text-issue-context",
+        "text-root-cause",
+        "badge-issue",
+        "text-actions"
+      ]
+    },
+    "text-issue-context": {
+      "type": "Text",
+      "props": {
+        "text": "The skill body runs fine, but the workflow Run step exits non-zero via the gateway-failure branch with a zero-token result, causing every run to be logged as a failure.",
+        "variant": "body"
+      }
+    },
+    "text-root-cause": {
+      "type": "Text",
+      "props": {
+        "text": "Problem isolated to the workflow execution layer, not the skill logic itself.",
+        "variant": "caption"
+      }
+    },
+    "badge-issue": {
+      "type": "Badge",
+      "props": {
+        "text": "ISS-001 (critical)",
+        "variant": "destructive"
+      }
+    },
+    "text-actions": {
+      "type": "Text",
+      "props": {
+        "text": "Filed for skill-repair. Status page updated to DEGRADED.",
+        "variant": "caption"
+      }
+    }
+  }
+}

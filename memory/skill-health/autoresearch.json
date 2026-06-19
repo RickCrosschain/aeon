@@ -1,0 +1,14 @@
+{
+  "skill": "autoresearch",
+  "last_analyzed": "2026-06-19T09:31:12Z",
+  "quality_score": 3,
+  "assessment": "Skill executed correctly with proper error handling and clear guidance, but no actual work completed due to missing required parameter",
+  "flags": [],
+  "avg_score": 3,
+  "history": [
+    {
+      "date": "2026-06-19",
+      "score": 3
+    }
+  ]
+}

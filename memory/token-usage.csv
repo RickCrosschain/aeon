@@ -3,3 +3,4 @@ date,skill,model,input_tokens,output_tokens,cache_read,cache_creation
 2026-06-19,autoresearch,claude-opus-4-8,1953,1150,40982,10651
 2026-06-19,heartbeat,claude-opus-4-8,2386,13691,1054498,37436
 2026-06-19,strategy-builder,claude-opus-4-8,2227,6639,284610,51488
+2026-06-19,soul-builder,claude-opus-4-8,5949,16883,1113980,62111

@@ -1,0 +1,260 @@
+{
+  "root": "card-main",
+  "state": {},
+  "elements": {
+    "card-main": {
+      "type": "Card",
+      "props": {
+        "title": "soul built"
+      },
+      "children": [
+        "subject-section",
+        "sep1",
+        "identity-section",
+        "sep2",
+        "sources-section",
+        "sep3",
+        "files-section",
+        "sep4",
+        "trait-section",
+        "sep5",
+        "instructions"
+      ]
+    },
+    "subject-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "subject-name",
+        "subject-handle"
+      ]
+    },
+    "subject-name": {
+      "type": "Heading",
+      "props": {
+        "text": "Rick Crosschain",
+        "level": "h2"
+      },
+      "children": []
+    },
+    "subject-handle": {
+      "type": "Text",
+      "props": {
+        "text": "@RickCrosschain",
+        "variant": "caption"
+      },
+      "children": []
+    },
+    "sep1": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      },
+      "children": []
+    },
+    "identity-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "identity-label",
+        "identity-content"
+      ]
+    },
+    "identity-label": {
+      "type": "Heading",
+      "props": {
+        "text": "Identity",
+        "level": "h3"
+      },
+      "children": []
+    },
+    "identity-content": {
+      "type": "Text",
+      "props": {
+        "text": "Crypto-gaming founder (ggQuest, \"proof of play\") now building gg.xyz — thesis-driven crypto social trading",
+        "variant": "body"
+      },
+      "children": []
+    },
+    "sep2": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      },
+      "children": []
+    },
+    "sources-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "sources-label",
+        "sources-list"
+      ]
+    },
+    "sources-label": {
+      "type": "Heading",
+      "props": {
+        "text": "Sources",
+        "level": "h3"
+      },
+      "children": []
+    },
+    "sources-list": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "source1",
+        "source2",
+        "source3"
+      ]
+    },
+    "source1": {
+      "type": "Text",
+      "props": {
+        "text": "X (web search, thin verbatim sample)",
+        "variant": "body"
+      },
+      "children": []
+    },
+    "source2": {
+      "type": "Text",
+      "props": {
+        "text": "name/web search",
+        "variant": "body"
+      },
+      "children": []
+    },
+    "source3": {
+      "type": "Text",
+      "props": {
+        "text": "gg.xyz & ggQuest interviews",
+        "variant": "body"
+      },
+      "children": []
+    },
+    "sep3": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      },
+      "children": []
+    },
+    "files-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "files-label",
+        "files-list"
+      ]
+    },
+    "files-label": {
+      "type": "Heading",
+      "props": {
+        "text": "Files Created",
+        "level": "h3"
+      },
+      "children": []
+    },
+    "files-list": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "sm"
+      },
+      "children": [
+        "file1",
+        "file2",
+        "file3"
+      ]
+    },
+    "file1": {
+      "type": "Badge",
+      "props": {
+        "text": "soul/SOUL.md",
+        "variant": "default"
+      },
+      "children": []
+    },
+    "file2": {
+      "type": "Badge",
+      "props": {
+        "text": "soul/STYLE.md",
+        "variant": "default"
+      },
+      "children": []
+    },
+    "file3": {
+      "type": "Badge",
+      "props": {
+        "text": "soul/examples/good-outputs.md",
+        "variant": "default"
+      },
+      "children": []
+    },
+    "sep4": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      },
+      "children": []
+    },
+    "trait-section": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "trait-label",
+        "trait-content"
+      ]
+    },
+    "trait-label": {
+      "type": "Heading",
+      "props": {
+        "text": "Most Distinctive Trait",
+        "level": "h3"
+      },
+      "children": []
+    },
+    "trait-content": {
+      "type": "Text",
+      "props": {
+        "text": "One throughline runs through everything he ships — reward what's real (genuine play, genuine conviction) and make vanity metrics worthless. Voice is builder-bullish: numbered threads, ALL CAPS + !!! for emphasis — yet he's building the machine meant to kill hype-farming.",
+        "variant": "body"
+      },
+      "children": []
+    },
+    "sep5": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      },
+      "children": []
+    },
+    "instructions": {
+      "type": "Alert",
+      "props": {
+        "title": "Next Steps",
+        "message": "Review + edit in the dashboard Soul tab, then Pull to refresh.",
+        "type": "info"
+      },
+      "children": []
+    }
+  }
+}

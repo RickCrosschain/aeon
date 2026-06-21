@@ -1,19 +1,22 @@
-Heartbeat complete. All checks ran; no notification needed (the only flag is the already-tracked, already-notified heartbeat degradation, within the 48h dedup window).
+Heartbeat complete (20:00 slot, 2026-06-21).
 
 ## Summary
 
-Ran the heartbeat skill for the 2026-06-21 14:00 UTC slot.
+Ran all heartbeat checks; nothing new requiring a notification.
 
-**Checks:**
-- **P0 — Failed/stuck skills:** `heartbeat` lifetime success_rate is 13% (8/62) → chronic-failure flag fires, but `consecutive_failures: 0`, `last_status: success`, `last_success: 2026-06-21 10:39 UTC` (~4h ago, self-check >36h does not fire), last seven runs succeeded. Intermittent gateway-exit/zero-token bug already tracked by **ISS-001** (open, critical). Other skills (autoresearch, strategy-builder, soul-builder) all ✅.
-- **P1:** No open PRs, no open issues.
-- **P2:** MEMORY.md priorities are known onboarding items, nothing new.
-- **P3:** Only `heartbeat` is an enabled scheduled skill; dispatching on schedule. No missing skills.
+- **P0 — Failed/stuck skills:** `heartbeat` lifetime success_rate is 14% (9/63), so the chronic-failure flag fires — but `consecutive_failures: 0`, `last_status: success`, `last_success` 14:41 UTC (~6h ago, so the self-check >36h staleness does *not* fire), and the last seven runs succeeded. This is the known intermittent gateway/zero-token bug already tracked by **ISS-001** (open, critical). All other skills (autoresearch, strategy-builder, soul-builder) ✅.
+- **P1:** No open PRs, no open issues (`gh` both empty).
+- **P2:** MEMORY.md priorities are existing onboarding items, nothing new.
+- **P3:** Only `heartbeat` is enabled in aeon.yml; dispatching on schedule. No missing skills.
 
-**Overall: 🔴 DEGRADED** (chronic-failure P0). No notification sent — duplicate of items already in the last 48h of logs and previously notified.
+**Notification:** None sent — ISS-001 / heartbeat degradation was notified 2026-06-19 and is logged across the last 48h (dedup).
+
+**Status page:** Regenerated `docs/status.md` → 🔴 DEGRADED, 1 open issue, 4 skills. Token Pulse omitted (no `articles/token-report-*.md`). Next scheduled run: heartbeat at 2026-06-22 08:00 UTC.
 
 **Files modified:**
-- `docs/status.md` — regenerated (🔴 DEGRADED, 1 open issue, 4-skill health table, Token pulse omitted — no token report exists).
-- `memory/logs/2026-06-21.md` — appended the 14:00-slot run entry.
+- `docs/status.md` — regenerated
+- `memory/logs/2026-06-21.md` — appended 20:00-slot entry
 
-**Follow-up:** ISS-001 (heartbeat gateway-exit/zero-token false-failure) remains the one open item; needs a repair skill to fix the run-state detection. `HEARTBEAT_OK` not logged — status is DEGRADED, `STATUS_PAGE=DEGRADED`.
+Verdict: `HEARTBEAT_OK · STATUS_PAGE=DEGRADED` — no new attention items; the lone DEGRADED signal is the pre-existing, already-notified ISS-001.
+
+**Follow-up:** ISS-001 remains open — the heartbeat gateway-exit/zero-token detection bug needs a real fix (e.g. enabling `skill-repair`) before fleet health metrics become reliable.

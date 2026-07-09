@@ -27,6 +27,7 @@ skills.lock
 tmp_*
 *.tmp
 .tmp-*
+.hb-notify.md
 .pending-*.sh
 .run-*.sh
 .*-tmp.md

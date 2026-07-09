@@ -1,0 +1,149 @@
+{
+  "root": "card_heartbeat",
+  "state": {},
+  "elements": {
+    "card_heartbeat": {
+      "type": "Card",
+      "props": {
+        "title": "heartbeat"
+      },
+      "children": [
+        "stack_main"
+      ]
+    },
+    "stack_main": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "header_stack",
+        "alert_degraded",
+        "separator_1",
+        "stats_stack",
+        "separator_2",
+        "details_stack"
+      ]
+    },
+    "header_stack": {
+      "type": "Stack",
+      "props": {
+        "direction": "horizontal",
+        "gap": "sm"
+      },
+      "children": [
+        "badge_status",
+        "badge_issue"
+      ]
+    },
+    "badge_status": {
+      "type": "Badge",
+      "props": {
+        "text": "DEGRADED",
+        "variant": "destructive"
+      }
+    },
+    "badge_issue": {
+      "type": "Badge",
+      "props": {
+        "text": "ISS-001 escalated",
+        "variant": "destructive"
+      }
+    },
+    "alert_degraded": {
+      "type": "Alert",
+      "props": {
+        "title": "Heartbeat Skill Degraded",
+        "message": "46 consecutive failures — only 1 success in last 47 runs. Last real success was 2026-07-05 08:12 UTC (~4 days ago), triggering >36h self-check.",
+        "type": "error"
+      }
+    },
+    "separator_1": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "stats_stack": {
+      "type": "Stack",
+      "props": {
+        "direction": "horizontal",
+        "gap": "md"
+      },
+      "children": [
+        "stat_consecutive",
+        "stat_success_rate",
+        "stat_days_since"
+      ]
+    },
+    "stat_consecutive": {
+      "type": "Stat",
+      "props": {
+        "label": "Consecutive failures",
+        "value": "46"
+      }
+    },
+    "stat_success_rate": {
+      "type": "Stat",
+      "props": {
+        "label": "Success in last 47 runs",
+        "value": "1"
+      }
+    },
+    "stat_days_since": {
+      "type": "Stat",
+      "props": {
+        "label": "Days since last success",
+        "value": "~4"
+      }
+    },
+    "separator_2": {
+      "type": "Separator",
+      "props": {
+        "orientation": "horizontal"
+      }
+    },
+    "details_stack": {
+      "type": "Stack",
+      "props": {
+        "direction": "vertical",
+        "gap": "md"
+      },
+      "children": [
+        "text_root_cause",
+        "text_behavior",
+        "text_progression",
+        "text_action"
+      ]
+    },
+    "text_root_cause": {
+      "type": "Text",
+      "props": {
+        "text": "Root cause unchanged: the gateway zero-token / exit-code bug — the skill body still runs (status page just regenerated) but every run records as failed.",
+        "variant": "body"
+      }
+    },
+    "text_behavior": {
+      "type": "Text",
+      "props": {
+        "text": "Issue progression: Was intermittent through 2026-07-05, now continuous.",
+        "variant": "caption"
+      }
+    },
+    "text_progression": {
+      "type": "Text",
+      "props": {
+        "text": "Trigger condition: >36h self-check fires when no real success recorded.",
+        "variant": "caption"
+      }
+    },
+    "text_action": {
+      "type": "Text",
+      "props": {
+        "text": "Action needed: skill-repair on the gateway success-detection path.",
+        "variant": "lead"
+      }
+    }
+  }
+}

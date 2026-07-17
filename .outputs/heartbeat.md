@@ -1,21 +1,22 @@
-Heartbeat complete.
+Heartbeat complete for the 20:00 slot.
 
 ## Summary
 
-Ran the **heartbeat** skill for the 2026-07-17 14:00 UTC slot. All priority checks executed; no new notification warranted.
+Ran all heartbeat checks against `cron-state.json`, `aeon.yml`, `INDEX.md`, and live GitHub state.
 
-**Findings (overall: 🔴 DEGRADED):**
-- **P0** — `heartbeat` is `success`, `consecutive_failures: 0`, last success ~5.8h ago. Self-check (<36h) and API-degradation flags cleared. Only the **chronic-failure** flag fires: lifetime success rate **42%** (71/171). Same root cause as **ISS-001** (gateway exit-code / zero-token success-detection bug). No stuck skills; other tracked skills healthy.
-- **P1** — no open PRs, no open GitHub issues.
-- **P2** — nothing new in MEMORY.md.
-- **P3** — only `heartbeat` is enabled and it's dispatching on schedule. No missing skills.
+**Findings — all stable, nothing new:**
+- **P0:** `heartbeat` is `success`, `consecutive_failures: 0`, last success ~6h ago. Only the **chronic-failure** flag fires (lifetime success rate 42%, 72/172) — the known **ISS-001** gateway/zero-token success-detection bug. No stuck skills, no API degradation, self-check clear.
+- **P1:** No open PRs, no open issues.
+- **P2:** No new flagged memory items.
+- **P3:** Only `heartbeat` is enabled; dispatching on schedule. No missing skills.
 
-**Notification:** none sent — ISS-001 chronic-failure is already notified (07-09) and continuously logged; condition unchanged, well within 48h dedup.
+**Actions taken:**
+- **No notification sent** — ISS-001 was already escalated (07-09) and is continuously logged; condition unchanged, well within the 48h dedup window.
+- Regenerated `docs/status.md` → 🔴 DEGRADED, 1 open issue, updated timestamp 20:34 UTC, heartbeat row ✅ / 42% / cf 0, next run 2026-07-18 08:00 UTC. Token pulse omitted (no `articles/token-report-*.md`).
+- Appended log entry to `memory/logs/2026-07-17.md`.
 
-**Files modified:**
-- `docs/status.md` — regenerated (🔴 DEGRADED, 1 open issue, heartbeat 42% / cf 0, next run 20:00 UTC; token pulse omitted — no token-report article).
-- `memory/logs/2026-07-17.md` — appended 14:00-slot log entry.
+**Files modified:** `docs/status.md`, `memory/logs/2026-07-17.md`
 
-**Follow-up:** ISS-001 remains open and is the standing blocker keeping fleet status DEGRADED — needs a repair skill to fix the gateway success-detection logic. No new action this run.
+**Follow-up:** ISS-001 remains the one open item — the intermittent gateway exit-code / zero-token success-detection bug keeps overall status DEGRADED despite the skill body executing every run. Needs a repair skill (skill-repair) to actually fix; heartbeat can only observe it.
 
-`HEARTBEAT_OK · STATUS_PAGE=DEGRADED`
+`HEARTBEAT_OK · STATUS_PAGE=DEGRADED` (P0 chronic-failure known/deduped)

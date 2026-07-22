@@ -1,22 +1,18 @@
-Heartbeat complete. `HEARTBEAT_OK · STATUS_PAGE=DEGRADED`
+Heartbeat complete. All checks ran; steady-state, no new alert.
 
 ## Summary
 
-Ran the heartbeat skill for the 2026-07-22 14:00 UTC slot (executed 14:50 UTC).
+**Heartbeat (20:00 slot, ran 21:02 UTC) — 🔴 DEGRADED, no notification needed.**
 
-**Checks:**
-- **P0** — No failed or stuck skills. `heartbeat` shows `last_status: success`, `consecutive_failures: 0`, `last_success: 2026-07-22T09:35:02Z` (~5.3h ago). API-degradation and >36h self-check flags stay cleared. Only the **chronic-failure** flag fires: lifetime `success_rate 0.46` (86/186 runs) — the known ISS-001 gateway exit-code / zero-token success-detection bug.
-- **P1** — No open PRs, no urgent/open GitHub issues.
-- **P2** — Nothing new flagged in MEMORY.md.
-- **P3** — Only `heartbeat` enabled; dispatching on schedule. No missing skills.
+- **P0:** `heartbeat` is `success` / `consecutive_failures: 0`, last success ~6.2h ago. Self-check and API-degradation flags clear. Only **chronic-failure** fires — lifetime success rate **47% (87/187)** — the known ISS-001 gateway exit-code / zero-token success-detection bug. No failed or stuck skills.
+- **P1:** No open PRs, no urgent/open GitHub issues.
+- **P2:** MEMORY.md holds only known onboarding items — nothing new.
+- **P3:** Only `heartbeat` enabled; dispatching on schedule. No missing skills.
 
-**Overall: 🔴 DEGRADED** (chronic-failure P0 fires — ISS-001, unchanged since 07-09).
+**Notification:** Suppressed — ISS-001 was escalated 07-09 and is continuously logged; condition unchanged (chronic-failure only, cf 0), well within the 48h dedup window.
 
-**Actions:**
-- **No notification** — ISS-001 chronic-failure is already notified and continuously logged, well within the 48h dedup window; condition is unchanged (chronic-only, cf 0). Nothing new to surface.
-- Regenerated `docs/status.md` → 🔴 DEGRADED, 1 open issue, heartbeat row ✅ 46% / cf 0, next run 2026-07-22 20:00 UTC. Token pulse omitted (no token-report article exists).
-- Appended log entry to `memory/logs/2026-07-22.md`.
+**Files modified:**
+- `docs/status.md` — regenerated → 🔴 DEGRADED, 1 open issue, heartbeat row ✅ 47% / cf 0 (last run 14:51 UTC), next run 2026-07-23 08:00 UTC, Token pulse omitted (no token report exists).
+- `memory/logs/2026-07-22.md` — appended run entry.
 
-**Files modified:** `docs/status.md`, `memory/logs/2026-07-22.md`.
-
-**Follow-up:** ISS-001 remains open — the intermittent gateway success-detection bug still corrupts fleet health metrics and needs a repair skill (skill-repair) to close.
+`HEARTBEAT_OK · STATUS_PAGE=DEGRADED` — no follow-up beyond the standing ISS-001 repair, which remains blocked on the gateway/success-detection fix.

@@ -1,21 +1,19 @@
-Heartbeat complete. `HEARTBEAT_OK · STATUS_PAGE=WATCH`
+Heartbeat complete for the 20:00 UTC slot. `HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
 ## Summary
 
-Ran the heartbeat skill for the 14:00 slot (executed 16:09 UTC).
+Ran the heartbeat skill (20:00 UTC slot, 2026-07-27 20:38 UTC). All priority checks clean — no notification warranted.
 
 **Checks:**
-- **P0** — No flags fire. Heartbeat is `success`, `consecutive_failures: 0`, last success ~7.9h ago (self-check fresh). Chronic-failure does *not* fire: lifetime success rate is 101/201 = **50%**, at/above the `< 50%` threshold. No failed or stuck skills.
-- **P1** — No open PRs, no urgent issues, no open GitHub issues at all.
+- **P0** — No flags. `heartbeat` is `success`, `consecutive_failures: 0`, last success ~4.5h ago. Chronic-failure does **not** fire: lifetime success rate is 102/202 = **0.5049**, at/above the `< 0.5` threshold. No failed/stuck skills; API-degradation and >36h self-check flags clear.
+- **P1** — No open PRs, no urgent issues, no open GitHub issues.
 - **P2** — Nothing new flagged in MEMORY.md.
-- **P3** — Only heartbeat is enabled; dispatching on schedule.
-- **Overall:** 🟡 **WATCH**, driven solely by the still-open critical issue **ISS-001** (gateway exit-code / zero-token success-detection bug).
+- **P3** — Only `heartbeat` enabled; dispatching on schedule.
 
-**Actions:**
-- **No notification sent** — the only standing item (ISS-001) was already notified 07-09 and continuously logged; condition unchanged, nothing new or worse.
-- Regenerated `docs/status.md` → WATCH, 1 open issue, next run heartbeat 20:00 UTC. Token pulse omitted (no `articles/token-report-*.md`).
-- Appended log entry to `memory/logs/2026-07-27.md`.
+**Standing item:** ISS-001 (critical, open) — the gateway exit-code / zero-token success-detection bug. Already notified 07-09 and continuously logged; within 48h dedup and condition unchanged → **no notification sent**. It alone drives Overall = 🟡 WATCH.
 
-**Files modified:** `docs/status.md`, `memory/logs/2026-07-27.md`
+**Files modified:**
+- `docs/status.md` — regenerated → 🟡 WATCH, 1 open issue, Updated 2026-07-27 20:38 UTC, next run 2026-07-28 08:00 UTC. Token pulse omitted (no token-report article).
+- `memory/logs/2026-07-27.md` — appended 20:00-slot entry.
 
-**Follow-up:** ISS-001 remains open (critical) — it needs repair (skill-repair / autoresearch) to restore reliable fleet-health metrics; heartbeat can only observe it, not fix it.
+**Follow-up:** ISS-001 remains unresolved (the fleet-health metrics stay unreliable until repaired). WATCH will flip back to DEGRADED if the success ratio dips below 50% on the next run.

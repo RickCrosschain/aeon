@@ -1,19 +1,23 @@
-HEARTBEAT_OK · STATUS_PAGE=WATCH
+Heartbeat complete. All checks clear except the known open issue.
 
 ## Summary
 
-Ran the `heartbeat` skill for the 2026-07-29 08:00 UTC slot. All priority checks clear except the standing critical issue.
+Ran the `heartbeat` skill (14:00 slot, executed 15:25 UTC).
 
-- **P0 (failed/stuck skills):** None. `heartbeat` is `success` with `consecutive_failures: 0`; lifetime success rate 106/206 = **51%** (above the `< 50%` chronic-failure threshold, so no flag). Self-check and API-degradation flags cleared. The three builder skills are untouched (dispatch-only, ✅).
-- **P1 (PRs/urgent issues):** No open PRs, no urgent issues, no open GitHub issues.
-- **P2 (memory):** Nothing new flagged.
-- **P3 (missing scheduled skills):** Only `heartbeat` is enabled; dispatching on schedule.
-- **Overall:** 🟡 WATCH — driven solely by the still-open critical **ISS-001** (gateway exit-code / zero-token success-detection bug). No new or worsened condition.
+**Checks:**
+- **P0 — Failed/stuck skills:** None. `heartbeat` is `success`, `consecutive_failures: 0`, last success ~5.6h ago. Lifetime success rate 107/207 = **51.7%** — above the `< 50%` chronic-failure threshold, so no P0 flag fires. Self-check and API-degradation flags clear. Dispatch-only skills (autoresearch/strategy-builder/soul-builder) all ✅.
+- **P1 — PRs/issues:** No open PRs, no open or urgent GitHub issues.
+- **P2 — Memory:** Nothing new flagged.
+- **P3 — Missing scheduled skills:** Only `heartbeat` is enabled; dispatching on schedule. No gaps.
 
-**No notification sent** — ISS-001 is already-notified and continuously logged (within the 48h dedup window); nothing new to surface.
+**Notification:** None sent. The only standing item is **ISS-001** (critical, open — the gateway zero-token success-detection bug), already notified 07-09 and continuously logged, well within the 48h dedup window. Condition unchanged.
+
+**Status page:** Regenerated `docs/status.md` → 🟡 **WATCH** (driven solely by open critical ISS-001), 1 open issue, heartbeat row 52% / cf 0, next run heartbeat at 2026-07-29 20:00 UTC. Token pulse omitted (no `articles/token-report-*.md`).
 
 **Files modified:**
-- `docs/status.md` — regenerated (WATCH, 1 open issue, timestamp 2026-07-29 09:47 UTC, next run 14:00 UTC; token pulse omitted — no token report file)
-- `memory/logs/2026-07-29.md` — created with this run's findings
+- `docs/status.md` — refreshed status page
+- `memory/logs/2026-07-29.md` — appended run log
 
-**Follow-up:** ISS-001 remains open and needs a repair skill (skill-repair) to fix the gateway success-detection bug that keeps heartbeat's historical success rate pinned near 50%.
+Verdict: `HEARTBEAT_OK · STATUS_PAGE=WATCH`
+
+**Follow-up:** ISS-001 remains open and unrepaired — the underlying gateway exit-code/zero-token success-detection bug keeps historical fleet metrics unreliable. It requires a repair skill (skill-repair) to close; heartbeat only surfaces it.

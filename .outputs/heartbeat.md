@@ -1,24 +1,20 @@
-Heartbeat complete. All checks green; no notification sent (only standing item is ISS-001, already notified and within dedup window).
+Heartbeat complete — nothing needs attention.
 
 `HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
 ## Summary
 
-Ran the `heartbeat` skill for the 2026-08-01 20:00 UTC slot.
+Ran the heartbeat checks for the 2026-08-02 08:00 UTC slot. All clear — no notification sent.
 
-**Checks (all clear, no P0 flags):**
-- **P0 — Failed/stuck skills:** `heartbeat` is `success`, `consecutive_failures: 0`, last success ~6.3h ago (<36h self-check clear). Lifetime success rate 117/219 = **53.4%** (above the <50% chronic threshold). No failed, stuck, or degraded skills. `autoresearch`/`strategy-builder`/`soul-builder` untouched (✅, dispatch-only).
-- **P1:** No open PRs, no open issues, none labeled urgent.
-- **P2:** MEMORY.md — nothing new flagged.
-- **P3:** Only `heartbeat` enabled; dispatching on schedule. No missing skills.
+- **P0 (failed/stuck skills):** None. `heartbeat` is `success`, cf 0, last success ~12h ago (self-check clear). Lifetime success_rate 118/220 = **54%**, above the 50% chronic threshold. The three dispatch-only skills are untouched (✅). ISS-001 remains open (critical) but fires no P0 condition currently.
+- **P1:** No open PRs, no open issues (both `gh` lists empty).
+- **P2:** MEMORY.md holds only known onboarding items.
+- **P3:** Only `heartbeat` is enabled; dispatching on schedule. No missing skills.
 
-**Overall verdict:** 🟡 WATCH — driven solely by the standing open critical issue **ISS-001** (gateway success-detection bug). No new signal.
+**Overall verdict:** 🟡 WATCH (driven solely by the open critical issue ISS-001).
 
-**Actions taken:**
-- **No notification** — ISS-001 is the only item and is well within the 48h dedup window.
-- Regenerated `docs/status.md` → 🟡 WATCH, 1 open issue, next run 2026-08-02 08:00 UTC. Token pulse section omitted (no `articles/token-report-*.md`).
-- Appended log entry to `memory/logs/2026-08-01.md`.
+**Files modified:**
+- `docs/status.md` — regenerated (WATCH, 1 open issue, heartbeat 54%/cf 0, next run 2026-08-02 14:00 UTC; token pulse omitted — no report file).
+- `memory/logs/2026-08-02.md` — created with this run's findings.
 
-**Files modified:** `docs/status.md`, `memory/logs/2026-08-01.md`
-
-**Follow-up:** ISS-001 remains open and is the one thing keeping status at WATCH — repairing the gateway exit-code / zero-token success-detection bug would restore accurate metrics and clear the flag.
+**No notification** — ISS-001 is the only standing item and is well within the 48h dedup window. No follow-up needed; ISS-001 repair remains the outstanding open loop.

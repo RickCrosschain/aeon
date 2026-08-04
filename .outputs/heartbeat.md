@@ -1,17 +1,21 @@
-Heartbeat complete. All checks ran; nothing new needs attention, so no notification was sent.
+Heartbeat complete for the 20:00 UTC slot.
+
+`HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
 ## Summary
 
-**Verdict: HEARTBEAT_OK · STATUS_PAGE=WATCH** (14:00 slot, run at 15:39 UTC)
+Ran all heartbeat checks; nothing new needs attention.
 
-- **P0 — Failed/stuck skills:** clean. `heartbeat` last_status `success`, cf 0, last_success ~6h ago (self-check clear). Lifetime success_rate 125/227 = **0.5507** — chronic-failure does *not* fire (threshold is `< 0.5`). No stuck/degraded skills. Other three entries are dispatch-only and healthy.
-- **P1:** no open PRs, no open issues, none urgent.
-- **P2:** MEMORY.md follow-ups unchanged.
-- **P3:** only `heartbeat` enabled; dispatching on schedule. No misses.
-- The single standing item is **ISS-001** (critical, open) → keeps overall at 🟡 WATCH. Already notified and continuously logged, so within the 48h dedup window → **no notification sent**.
+- **P0 — Failed/stuck skills:** None. `heartbeat` is `success` (last success 2026-08-04 15:40 UTC, ~4.5h ago), `consecutive_failures: 0`. Lifetime success_rate is 126/228 = **55.3%** (≥ 0.5, so chronic-failure does not fire). The three dispatch-only skills are all ✅. Self-check clear (<36h).
+- **P1:** No open PRs, no open/urgent GitHub issues.
+- **P2:** MEMORY.md holds only known onboarding items — nothing new flagged.
+- **P3:** Only `heartbeat` is enabled in `aeon.yml`; dispatching on schedule. No missing skills.
+- **Overall status:** 🟡 WATCH — driven solely by the standing critical issue ISS-001. No live P0 flag fires, so not DEGRADED.
+
+**Notification:** None sent. ISS-001 is already notified and continuously logged (within 48h dedup); condition is unchanged.
 
 **Files modified:**
-- `docs/status.md` — regenerated (🟡 WATCH, 1 open issue, next run 20:00 UTC, token pulse omitted — no token report)
-- `memory/logs/2026-08-04.md` — appended 15:39 UTC run entry
+- `docs/status.md` — regenerated (🟡 WATCH, 1 open issue, heartbeat 55%/cf 0, last run 15:40 UTC, next run 08:00 UTC, token pulse omitted — no token-report article exists).
+- `memory/logs/2026-08-04.md` — appended the 20:00-slot entry.
 
-**Follow-up:** none required this cycle. ISS-001 remains the only open loop.
+**Follow-up:** ISS-001 (heartbeat gateway-exit / zero-token false-failures) remains open and unresolved — a repair skill (skill-repair/autoresearch) is needed to close it. None are enabled on a schedule.

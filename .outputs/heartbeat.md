@@ -1,19 +1,18 @@
-Heartbeat complete. All priority checks ran clean; no notification warranted.
+`HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
 ## Summary
 
-**Heartbeat — 2026-08-03 20:38 UTC (20:00 slot) · Overall: 🟡 WATCH**
+Ran the **heartbeat** skill for the 2026-08-04 08:00 UTC slot. Fleet is healthy; no notification sent (nothing new to surface, dedup on the standing item).
 
-- **P0 (failed/stuck skills):** No flags. `heartbeat` is `success`, cf 0, last success ~4.6h ago (self-check clear). Chronic-failure does **not** fire — lifetime success rate 123/225 = **0.5467** (≥ 0.5 threshold). No API degradation, no failed/stuck skills. Other three skills (autoresearch/strategy-builder/soul-builder) untouched, all ✅.
-- **P1:** No open PRs, no open GitHub issues, none urgent.
-- **P2:** MEMORY.md — nothing new flagged.
-- **P3:** Only `heartbeat` enabled in `aeon.yml`; dispatching on schedule. No missing skills.
-- **Standing item:** ISS-001 (critical, open) — already notified and continuously logged, well within 48h dedup. Condition unchanged, so **no notification sent**.
+**Checks:**
+- **P0** — No failed or stuck skills. `heartbeat` is `success`, cf 0, last success ~13h ago (self-check clear). Lifetime success rate 124/226 = **54.9%** (above the 50% chronic-failure threshold, so no flag). No API degradation.
+- **P1** — No open PRs, no open/urgent GitHub issues.
+- **P2** — No new flagged memory items.
+- **P3** — Only `heartbeat` is enabled in `aeon.yml`; it's dispatching on schedule. No missing skills.
+- **Overall: 🟡 WATCH** — driven solely by the still-open **ISS-001** (critical). Already notified and continuously logged, so no re-notify.
 
 **Files modified:**
-- `docs/status.md` — regenerated → 🟡 WATCH, 1 open issue, heartbeat row ✅/55%/cf 0, next run 08:00 UTC. Token pulse omitted (no token-report article).
-- `memory/logs/2026-08-03.md` — appended 20:00-slot entry.
+- `docs/status.md` — regenerated (🟡 WATCH, 1 open issue, heartbeat ✅ 55% / cf 0, next run 14:00 UTC; Token pulse omitted — no token report exists).
+- `memory/logs/2026-08-04.md` — created with the run log.
 
-**Follow-up:** ISS-001 remains open (heartbeat historically recorded as failed on many runs — gateway/zero-token exit); tracked but not newly actionable this run.
-
-`HEARTBEAT_OK · STATUS_PAGE=WATCH`
+**Follow-up:** ISS-001 (heartbeat gateway/zero-token failures) remains open but is not currently firing — recent runs are succeeding. A repair skill (skill-repair/autoresearch) would need to close it; it's out of heartbeat's scope.

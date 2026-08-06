@@ -1,22 +1,19 @@
-Heartbeat complete. All priority checks ran clean; the only standing item is the already-tracked ISS-001.
+Heartbeat complete. All checks clean — no notification needed.
 
-`HEARTBEAT_OK · STATUS_PAGE=WATCH`
+**HEARTBEAT_OK · STATUS_PAGE=WATCH**
 
 ## Summary
 
-**Checks (20:00 slot, run at 20:55 UTC):**
-- **P0 — Failed/stuck skills:** None. `heartbeat` is `success`, cf 0, last_success ~5.5h ago (self-check clear). Chronic-failure does not fire — success_rate 129/231 = **0.56** (≥ 0.5). No API degradation. Other cron-state skills (autoresearch/strategy-builder/soul-builder) all ✅, dispatch-only.
-- **P1 — PRs/issues:** No open PRs, no open GitHub issues, none urgent.
-- **P2 — Memory flags:** Nothing new; Next Priorities are known onboarding items.
-- **P3 — Missing skills:** Only `heartbeat` enabled in aeon.yml; dispatching on schedule. None missing.
-- **Standing item:** ISS-001 (critical, open) — already notified and continuously logged, well within the 48h dedup window. Condition unchanged.
+Ran the heartbeat skill (08:00 slot, 2026-08-06):
 
-**Notification:** None sent (nothing new or worse to surface).
-
-**Overall verdict:** 🟡 WATCH (driven solely by the open critical issue ISS-001; no P0 flag fired).
+- **P0 — cron-state.json:** `heartbeat` ✅ success, cf 0, last success ~12h ago (self-check clear). Lifetime success_rate 130/232 = **0.5603** (≥ 0.5, chronic-failure does not fire). No failed/stuck/degraded skills. Dispatch-only skills untouched.
+- **P1:** No open PRs, no open issues, none urgent.
+- **P2:** MEMORY.md — nothing new flagged.
+- **P3:** Only `heartbeat` enabled; dispatching on schedule, no missing skills.
+- **Overall:** 🟡 WATCH — driven solely by ISS-001 (critical, open), which is already notified and continuously logged (within 48h dedup). **No notification sent** — no new or worse condition.
 
 **Files modified:**
-- `docs/status.md` — regenerated: 🟡 WATCH, 1 open issue, heartbeat row ✅/56%/cf 0, last run 2026-08-05 15:27 UTC, next run 08:00 UTC. Token pulse omitted (no token-report file).
-- `memory/logs/2026-08-05.md` — appended 20:00-slot log entry.
+- `docs/status.md` — regenerated (WATCH, 1 open issue, heartbeat last run 2026-08-05 20:56 UTC, next run 14:00 UTC; token pulse omitted, no report file).
+- `memory/logs/2026-08-06.md` — created with this run's findings.
 
-**Follow-up:** ISS-001 (heartbeat gateway/zero-token failure recording) remains open and is the sole reason the fleet isn't green — worth a repair pass when attention allows.
+**Follow-up:** ISS-001 remains open but currently not firing any P0 flag — no action required this run. Files land on `main` via the workflow's auto-commit step.

@@ -1,19 +1,19 @@
-Heartbeat complete. All checks clean — no notification needed.
+Heartbeat complete. All priority checks ran clean; nothing new to notify.
 
 **HEARTBEAT_OK · STATUS_PAGE=WATCH**
 
 ## Summary
 
-Ran the heartbeat skill (08:00 slot, 2026-08-06):
+Ran the heartbeat skill for the 14:00 UTC slot (now 15:20 UTC).
 
-- **P0 — cron-state.json:** `heartbeat` ✅ success, cf 0, last success ~12h ago (self-check clear). Lifetime success_rate 130/232 = **0.5603** (≥ 0.5, chronic-failure does not fire). No failed/stuck/degraded skills. Dispatch-only skills untouched.
-- **P1:** No open PRs, no open issues, none urgent.
-- **P2:** MEMORY.md — nothing new flagged.
-- **P3:** Only `heartbeat` enabled; dispatching on schedule, no missing skills.
-- **Overall:** 🟡 WATCH — driven solely by ISS-001 (critical, open), which is already notified and continuously logged (within 48h dedup). **No notification sent** — no new or worse condition.
+- **P0 (failed/stuck skills):** None. `heartbeat` is `success`, cf 0, last success ~6.5h ago (self-check clear). Chronic-failure does **not** fire — lifetime success rate 131/233 = **0.5622** (≥ 0.5). No API-degradation, no failed/stuck skills.
+- **P1 (PRs/issues):** No open PRs, no open GitHub issues.
+- **P2 (memory):** Nothing new flagged.
+- **P3 (missing skills):** Only heartbeat enabled; dispatching on schedule.
+- **Standing item:** ISS-001 (critical, open) → overall **🟡 WATCH**. Already notified and continuously logged, so no new notification (within 48h dedup).
 
 **Files modified:**
-- `docs/status.md` — regenerated (WATCH, 1 open issue, heartbeat last run 2026-08-05 20:56 UTC, next run 14:00 UTC; token pulse omitted, no report file).
-- `memory/logs/2026-08-06.md` — created with this run's findings.
+- `docs/status.md` — regenerated: 🟡 WATCH, 1 open issue, heartbeat ✅ 56%/cf 0, next run 20:00 UTC, token pulse omitted (no report file).
+- `memory/logs/2026-08-06.md` — appended the 15:20 UTC run entry.
 
-**Follow-up:** ISS-001 remains open but currently not firing any P0 flag — no action required this run. Files land on `main` via the workflow's auto-commit step.
+**Follow-up:** None required. ISS-001 remains the only open item (long-standing gateway/zero-token classification quirk, not a functional outage — heartbeat is running successfully).

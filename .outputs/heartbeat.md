@@ -1,19 +1,21 @@
-Heartbeat complete. All priority checks ran clean; nothing new to notify.
-
-**HEARTBEAT_OK · STATUS_PAGE=WATCH**
+Heartbeat complete for the 2026-08-07 08:00 slot.
 
 ## Summary
 
-Ran the heartbeat skill for the 14:00 UTC slot (now 15:20 UTC).
+Ran all heartbeat checks. Everything is stable — no new attention items, so no notification was sent (per the 48h dedup rule).
 
-- **P0 (failed/stuck skills):** None. `heartbeat` is `success`, cf 0, last success ~6.5h ago (self-check clear). Chronic-failure does **not** fire — lifetime success rate 131/233 = **0.5622** (≥ 0.5). No API-degradation, no failed/stuck skills.
-- **P1 (PRs/issues):** No open PRs, no open GitHub issues.
-- **P2 (memory):** Nothing new flagged.
-- **P3 (missing skills):** Only heartbeat enabled; dispatching on schedule.
-- **Standing item:** ISS-001 (critical, open) → overall **🟡 WATCH**. Already notified and continuously logged, so no new notification (within 48h dedup).
+- **P0 — Skills:** No failed or stuck skills. `heartbeat` is `success`, cf 0, last success ~17h ago (self-check clear). Lifetime success rate 132/234 = **56.4%** (≥50%, chronic-failure threshold not crossed). No API degradation. autoresearch/strategy-builder/soul-builder all ✅.
+- **P1 — PRs/Issues:** No open PRs, no open issues, none urgent.
+- **P2 — Memory:** MEMORY.md holds only known onboarding items; nothing new.
+- **P3 — Scheduling:** Only `heartbeat` is enabled; dispatching on schedule. No missing skills.
+- **Standing:** ISS-001 (critical, open) remains the only tracked item — already notified and continuously logged, so no re-notify.
+
+**Overall: 🟡 WATCH** (ISS-001 open; no P0 flag).
 
 **Files modified:**
-- `docs/status.md` — regenerated: 🟡 WATCH, 1 open issue, heartbeat ✅ 56%/cf 0, next run 20:00 UTC, token pulse omitted (no report file).
-- `memory/logs/2026-08-06.md` — appended the 15:20 UTC run entry.
+- `docs/status.md` — regenerated (🟡 WATCH, 1 open issue, next run 14:00 UTC). Token pulse omitted (no token-report file).
+- `memory/logs/2026-08-07.md` — created with this run's findings.
 
-**Follow-up:** None required. ISS-001 remains the only open item (long-standing gateway/zero-token classification quirk, not a functional outage — heartbeat is running successfully).
+**Follow-up:** ISS-001 (heartbeat gateway/zero-token failures) is still open — a repair skill (skill-repair/autoresearch) would need to close it. No action possible from heartbeat itself.
+
+`HEARTBEAT_OK · STATUS_PAGE=WATCH`

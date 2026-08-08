@@ -1,22 +1,17 @@
-Heartbeat run complete. `HEARTBEAT_OK · STATUS_PAGE=WATCH`
+HEARTBEAT_OK · STATUS_PAGE=WATCH
 
 ## Summary
 
-Ran the heartbeat skill for the 20:00 UTC slot (2026-08-07). All priority checks green except the standing critical issue.
+Ran the `heartbeat` skill for the 2026-08-08 08:00 UTC slot. All priority checks clear except the standing ISS-001.
 
-**Checks:**
-- **P0 (failed/stuck skills):** Clean. `heartbeat` = success, cf 0, last success ~5.8h ago (self-check <36h). Lifetime success_rate 134/236 = 0.5678 (≥0.5, chronic-failure does not fire). No API degradation, no stuck/failed skills. autoresearch/strategy-builder/soul-builder all ✅ (dispatch-only).
-- **P1:** No open PRs, no open issues, none urgent.
-- **P2:** MEMORY.md — nothing new flagged.
-- **P3:** Only heartbeat enabled; dispatching on schedule. No missing skills.
+- **P0 (failed/stuck skills):** None. `heartbeat` is `success`, cf 0, last success ~12h ago (self-check clear). Chronic-failure does not fire (success_rate 135/237 = 0.5696 ≥ 0.5). Other skills healthy.
+- **P1:** No open PRs, no open GitHub issues.
+- **P2:** Nothing new flagged in MEMORY.md.
+- **P3:** Only `heartbeat` enabled; dispatching on schedule. No missing skills.
+- **Overall:** 🟡 WATCH — driven solely by open critical issue ISS-001, already notified and within the 48h dedup window. **No notification sent** (nothing new or worse).
 
-**Overall verdict:** 🟡 WATCH — driven solely by ISS-001 (critical, open) per the "any open critical/high issue → WATCH" rule. No P0 flag fired.
+**Files modified:**
+- `docs/status.md` — regenerated: 🟡 WATCH, 1 open issue, heartbeat ✅ 57% / cf 0, next run 14:00 UTC, token pulse omitted (no report file).
+- `memory/logs/2026-08-08.md` — created with the run log.
 
-**Actions:**
-- **No notification sent** — the only item is ISS-001, already notified and continuously logged (within 48h dedup); condition unchanged.
-- Regenerated `docs/status.md` (🟡 WATCH, 1 open issue, next run heartbeat at 08:00 UTC). Token pulse omitted — no `articles/token-report-*.md` exists.
-- Logged the run to `memory/logs/2026-08-07.md`.
-
-**Files modified:** `docs/status.md`, `memory/logs/2026-08-07.md`
-
-**Follow-up:** ISS-001 (heartbeat historically recorded as failed on many runs) remains open — recent runs are succeeding (cf 0, rate creeping up), but a repair skill should formally investigate/close it.
+**Follow-ups:** None urgent. ISS-001 remains the one open item (long-standing, tracked). Files land on `main` via the workflow's auto-commit step.

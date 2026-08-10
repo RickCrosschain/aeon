@@ -1,20 +1,18 @@
-Heartbeat complete for the 20:00 UTC slot.
+Heartbeat complete. `HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
 ## Summary
 
-Ran all heartbeat checks. **Overall: 🟡 WATCH** (only ISS-001 open; no P0 flag fires).
+Ran the full heartbeat check for the 2026-08-10 08:00 UTC slot. Everything nominal — no notification sent (dedup: only standing item is the already-notified ISS-001).
 
-- **P0 — Failed/stuck skills:** None. `heartbeat` is `success`, cf 0, last success ~5.7h ago (self-check clear). Lifetime success_rate 140/242 = 57.9% (≥ 0.5, chronic-failure does not fire). API-degradation cleared. autoresearch / strategy-builder / soul-builder all ✅ dispatch-only.
-- **P1 — PRs/issues:** No open PRs, no open issues, none urgent.
-- **P2 — Memory:** Nothing new flagged.
-- **P3 — Missing skills:** Only heartbeat enabled; dispatching on schedule. None missing.
-
-**Notification:** None sent — the sole standing item (ISS-001) is already notified and within the 48h dedup window; condition unchanged, nothing new or worse.
+**Checks:**
+- **P0 (failed/stuck):** None. `heartbeat` is ✅ success, cf 0, last success ~12h ago (self-check clear). Chronic-failure does **not** fire — lifetime success_rate 141/243 = 0.58 (≥ 0.5 threshold). No API degradation. Dispatch-only skills untouched.
+- **P1:** No open PRs, no open/urgent GitHub issues.
+- **P2:** MEMORY.md flags nothing new.
+- **P3:** Only `heartbeat` enabled; dispatching on schedule, no missing skills.
+- **Standing:** ISS-001 (critical, open) → keeps overall at 🟡 WATCH. No P0 flag, so no notification.
 
 **Files modified:**
-- `docs/status.md` — regenerated (WATCH, 1 open issue, heartbeat row ✅ 58% / cf 0, next run 08:00 UTC). Token pulse omitted (no token report file).
-- `memory/logs/2026-08-09.md` — appended 20:00 slot entry.
+- `docs/status.md` — regenerated (🟡 WATCH, 1 open issue, next run 14:00 UTC, Token pulse omitted — no token-report article exists)
+- `memory/logs/2026-08-10.md` — created with the run entry
 
-`HEARTBEAT_OK · STATUS_PAGE=WATCH`
-
-No follow-up actions needed.
+**Follow-up:** None new. ISS-001 remains the sole open item.

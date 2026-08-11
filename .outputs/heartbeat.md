@@ -1,23 +1,23 @@
-HEARTBEAT_OK · STATUS_PAGE=WATCH
+Heartbeat complete — all checks green except the standing ISS-001. No notification sent (dedup).
 
 ## Summary
 
-Ran the heartbeat skill for the 14:00 UTC slot on 2026-08-11.
+Ran the `heartbeat` skill (20:00 UTC slot, run at 2026-08-11 20:10 UTC).
 
 **Checks:**
-- **P0 (failed/stuck/degraded skills):** All clear. `heartbeat` is succeeding (last_status `success`, cf 0, last_success ~6.5h ago). Chronic-failure does not fire — lifetime success_rate 145/247 = 0.587 (≥ 0.5). autoresearch/strategy-builder/soul-builder all ✅, dispatch-only.
-- **P1:** No open PRs, no open/urgent GitHub issues.
-- **P2:** No new flagged memory items.
-- **P3:** Only `heartbeat` is enabled; dispatching on schedule. No missing skills.
-- **Standing issue:** ISS-001 (critical, open) remains — already notified and continuously logged, well within the 48h dedup window.
+- **P0 — Skill health:** `heartbeat` is `success`, `consecutive_failures: 0`, last success 2026-08-11T14:48:29Z (~5.4h ago, self-check clear). Lifetime success rate 146/248 = **58.9%** (≥ 0.5, so chronic-failure does *not* fire). No failed or stuck skills. autoresearch/strategy-builder/soul-builder untouched.
+- **P1 — PRs/issues:** no open PRs, no open GitHub issues, none urgent.
+- **P2 — Memory:** nothing new flagged.
+- **P3 — Missing skills:** only `heartbeat` is enabled in aeon.yml, dispatching on schedule. No gaps.
 
-**Overall verdict:** 🟡 WATCH (driven solely by the open critical issue; no P0 flag fired).
+**Overall:** 🟡 WATCH — driven solely by open **ISS-001** (critical). No new P0 flag.
 
-**Actions:**
-- No notification sent — nothing new or worsened since prior runs; ISS-001 already surfaced.
-- Regenerated `docs/status.md` (🟡 WATCH, 1 open issue, next run 20:00 UTC, token pulse omitted — no token-report article).
-- Appended the run entry to `memory/logs/2026-08-11.md`.
+**Notification:** none sent — ISS-001 is already notified and continuously logged, well within the 48h dedup window; condition unchanged.
 
-**Files modified:** `docs/status.md`, `memory/logs/2026-08-11.md`
+**Files modified:**
+- `docs/status.md` — regenerated (🟡 WATCH, 1 open issue, heartbeat ✅ 59% cf 0, next run 08:00 UTC)
+- `memory/logs/2026-08-11.md` — appended 20:00 slot entry
 
-**Follow-up:** ISS-001 is stale in practice — heartbeat has been stably succeeding (cf 0) for days. A repair skill (skill-repair/autoresearch) should evaluate whether to close it.
+`HEARTBEAT_OK · STATUS_PAGE=WATCH`
+
+**Follow-up:** ISS-001 (heartbeat frequently recorded as failed by the gateway) remains open and unresolved since 2026-06-19 — worth routing to a repair skill (skill-repair) if it persists, as the recorded ~59% success rate is entirely a gateway/state-recording artifact, not a functional failure.

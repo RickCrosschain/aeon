@@ -1,22 +1,19 @@
-Heartbeat complete. All checks ran green except the one standing item.
+All checks complete for the 20:00 UTC slot.
 
 ## Summary
 
-Ran the `heartbeat` skill for the 2026-08-12 14:00 UTC slot.
+Ran the heartbeat skill (20:00 UTC slot, 2026-08-12). Fleet is stable — no notification sent.
 
 **Checks:**
-- **P0 — Failed/stuck skills:** None. `heartbeat` is `success`, cf 0, last success 08:54 UTC (~5.8h ago, self-check clear). Lifetime success rate 148/250 = **59.2%** (≥ 0.5, so chronic-failure does not fire). No API degradation. autoresearch/strategy-builder/soul-builder untouched.
-- **P1 — PRs/issues:** No open PRs, no open issues, none urgent.
-- **P2 — Memory flags:** Nothing new in MEMORY.md.
-- **P3 — Missing scheduled skills:** Only `heartbeat` enabled; dispatching on schedule.
+- **P0 (failed/stuck skills):** Clear. `heartbeat` = ✅ success, cf 0, last_success 2026-08-12T14:43:31Z (~5.5h ago, self-check clear). Chronic-failure does not fire — lifetime success_rate 149/251 = **0.594** (≥ 0.5). No stuck/degraded skills. autoresearch/strategy-builder/soul-builder untouched.
+- **P1:** No open PRs, no open issues, none urgent.
+- **P2:** MEMORY.md flags = known onboarding items, nothing new.
+- **P3:** Only heartbeat enabled; dispatching on schedule. No missing skills.
 
-**Overall:** 🟡 WATCH — driven solely by ISS-001 (critical, open, known heartbeat gateway/zero-token issue). No P0 flag fired.
+**Standing item:** ISS-001 (critical, open) — already notified and continuously logged, well within 48h dedup. Condition unchanged, no new P0 → **no notification** sent.
 
-**Actions:**
-- **No notification sent** — ISS-001 is already notified and continuously logged; condition unchanged (well within 48h dedup). Nothing new to surface.
-- Regenerated `docs/status.md` → WATCH, 1 open issue, next run 20:00 UTC. Token pulse omitted (no token-report file).
-- Logged to `memory/logs/2026-08-12.md`.
+**Files modified:**
+- `docs/status.md` — regenerated → 🟡 WATCH, 1 open issue, heartbeat row ✅/59%/cf 0, updated 2026-08-12 20:10 UTC, next run 08:00 UTC. Token pulse omitted (no token-report article).
+- `memory/logs/2026-08-12.md` — appended 20:00-slot entry.
 
 `HEARTBEAT_OK · STATUS_PAGE=WATCH`
-
-**Files modified:** `docs/status.md`, `memory/logs/2026-08-12.md` (both land on `main` via the workflow auto-commit step).

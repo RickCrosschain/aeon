@@ -1,20 +1,21 @@
-All checks green — no notification needed.
+Heartbeat run complete. All priority checks are green; no notification needed (nothing new since prior runs, and the sole open item is already tracked and within the 48h dedup window).
+
+`HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
 ## Summary
 
-Ran the **heartbeat** skill (14:00 UTC slot, 2026-08-18). All priority checks clean:
+**Checks (20:00 UTC slot, 2026-08-18):**
+- **P0 — Failed/stuck skills:** Clean. `heartbeat` is `success`, `consecutive_failures: 0`, success_rate 167/269 = 0.62 (≥0.5, no chronic flag), last success ~6h ago, last failure 20d ago (2026-07-29). No stuck, degraded, or chronic skills. Self-check clear.
+- **P1 — PRs/issues:** No open PRs, no open GitHub issues, none urgent.
+- **P2 — Memory flags:** Nothing new; MEMORY.md Next Priorities are known onboarding items.
+- **P3 — Missing scheduled skills:** Only `heartbeat` is enabled and it's dispatching on schedule.
 
-- **P0 — Failed/stuck skills:** clean. `heartbeat` `last_status: success`, `consecutive_failures: 0`, success_rate 62% (≥0.5, no chronic flag), last failure 2026-07-29 (20d ago), self-check well within 36h. No stuck/degraded skills.
-- **P1 — PRs/issues:** no open PRs, no open GitHub issues, none urgent.
-- **P2 — Memory flags:** nothing new in MEMORY.md.
-- **P3 — Missing scheduled skills:** only `heartbeat` is enabled and it's dispatching on schedule.
-
-**Overall status:** 🟡 WATCH — driven solely by the open critical **ISS-001** (heartbeat gateway zero-token), which is effectively recovered (20d since last failure) and awaits skill-repair to close. Heartbeat as a health skill doesn't close issues.
-
-**Result:** `HEARTBEAT_OK · STATUS_PAGE=WATCH`. No notification sent (nothing new/worse; ISS-001 within 48h dedup).
+**Overall status:** 🟡 WATCH — driven solely by the open critical **ISS-001** (heartbeat gateway zero-token). It's effectively recovered (20 days since last failure) and is a candidate for `skill-repair` to close; heartbeat is a health skill and does not close issues itself. Token pulse omitted (no `articles/token-report-*.md`).
 
 **Files modified:**
-- `docs/status.md` — regenerated public status page (Updated 14:05 UTC, next run 20:00 UTC)
-- `memory/logs/2026-08-18.md` — appended 14:00-slot log entry
+- `docs/status.md` — regenerated (Updated 2026-08-18 20:14 UTC, next run 08:00 UTC, 1 open issue)
+- `memory/logs/2026-08-18.md` — appended 20:00-slot entry
 
-**Follow-up:** ISS-001 remains a candidate for the `skill-repair` skill to formally close (no failures in 20 days).
+**No notification sent** — nothing new or worsening; ISS-001 already tracked and within the 48h dedup window.
+
+**Follow-up:** ISS-001 has had no recurrence in 20 days — worth a `skill-repair`/`autoresearch` pass to formally resolve it.

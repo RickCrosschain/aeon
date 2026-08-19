@@ -1,19 +1,21 @@
-Heartbeat run complete. `HEARTBEAT_OK · STATUS_PAGE=WATCH`
+Heartbeat complete for the 14:00 UTC slot. All priority checks clean; no notification needed (nothing new or worse, dedup within 48h).
 
 ## Summary
 
-Ran the heartbeat skill for the 2026-08-19 08:00 UTC slot. All priority checks came back clean; no notification was sent (nothing new or worse).
+**Result:** `HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
-- **P0 — Failed/stuck skills:** Clean. heartbeat `last_status: success`, `consecutive_failures: 0`, lifetime success rate 168/270 = 62% (≥ 0.5, chronic doesn't fire), last success ~12h ago (self-check clear), last failure 2026-07-29 (21d ago). Other state entries (autoresearch/strategy-builder/soul-builder) are dispatch-only and not enabled — untouched.
-- **P1 — PRs/issues:** No open PRs, no open GitHub issues, none urgent.
+**Checks (all clean):**
+- **P0 — Failed/stuck skills:** None. `heartbeat` is `success`, `consecutive_failures: 0`, success_rate 0.62 (≥0.5, chronic does not fire), last success ~6h ago, last failure 21 days ago (2026-07-29). No stuck, degraded, or chronic skills.
+- **P1 — PRs/issues:** No open PRs, no open GitHub issues.
 - **P2 — Memory flags:** Nothing new in MEMORY.md.
-- **P3 — Missing scheduled skills:** Only heartbeat is enabled (`0 8,14,20 * * *`), dispatching on schedule. No gaps.
-- **Status page:** Overall 🟡 **WATCH**, driven solely by open critical **ISS-001** (heartbeat gateway zero-token) — effectively recovered (21d since last failure), a candidate for skill-repair to close. Token pulse omitted (no token-report article present).
+- **P3 — Missing scheduled skills:** Only `heartbeat` is enabled; dispatching on schedule (`0 8,14,20 * * *`). None missing.
+
+**Status page:** Overall 🟡 WATCH, driven solely by the pre-existing open critical **ISS-001** (heartbeat gateway zero-token) — effectively recovered (21d since last failure), a candidate for skill-repair to close. Token pulse omitted (no `articles/token-report-*.md`).
 
 **Files modified:**
-- `docs/status.md` — regenerated public status page (WATCH, next run 14:00 UTC)
-- `memory/logs/2026-08-19.md` — logged the run
+- `docs/status.md` — regenerated (Updated 2026-08-19 14:19 UTC, next run 20:00 UTC)
+- `memory/logs/2026-08-19.md` — appended 14:00-slot entry
 
-**Follow-up:** ISS-001 stays open but is stale/recovered — a repair skill (skill-repair) should close it; heartbeat as a health skill doesn't close issues itself.
+**Notification:** None sent — nothing new or worse; ISS-001 already tracked and within the 48h dedup window.
 
-Note: shell output redirection (`>>`) is sandbox-blocked in this environment — used the Write tool for the log file instead. The `docs/status.md` change lands on `main` via the workflow's auto-commit step.
+**Follow-up:** ISS-001 remains open; it needs a repair skill (skill-repair) to close it — heartbeat as a health skill only files, it doesn't close.

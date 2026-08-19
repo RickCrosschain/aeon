@@ -1,21 +1,19 @@
-Heartbeat run complete. All priority checks are green; no notification needed (nothing new since prior runs, and the sole open item is already tracked and within the 48h dedup window).
-
-`HEARTBEAT_OK · STATUS_PAGE=WATCH`
+Heartbeat run complete. `HEARTBEAT_OK · STATUS_PAGE=WATCH`
 
 ## Summary
 
-**Checks (20:00 UTC slot, 2026-08-18):**
-- **P0 — Failed/stuck skills:** Clean. `heartbeat` is `success`, `consecutive_failures: 0`, success_rate 167/269 = 0.62 (≥0.5, no chronic flag), last success ~6h ago, last failure 20d ago (2026-07-29). No stuck, degraded, or chronic skills. Self-check clear.
-- **P1 — PRs/issues:** No open PRs, no open GitHub issues, none urgent.
-- **P2 — Memory flags:** Nothing new; MEMORY.md Next Priorities are known onboarding items.
-- **P3 — Missing scheduled skills:** Only `heartbeat` is enabled and it's dispatching on schedule.
+Ran the heartbeat skill for the 2026-08-19 08:00 UTC slot. All priority checks came back clean; no notification was sent (nothing new or worse).
 
-**Overall status:** 🟡 WATCH — driven solely by the open critical **ISS-001** (heartbeat gateway zero-token). It's effectively recovered (20 days since last failure) and is a candidate for `skill-repair` to close; heartbeat is a health skill and does not close issues itself. Token pulse omitted (no `articles/token-report-*.md`).
+- **P0 — Failed/stuck skills:** Clean. heartbeat `last_status: success`, `consecutive_failures: 0`, lifetime success rate 168/270 = 62% (≥ 0.5, chronic doesn't fire), last success ~12h ago (self-check clear), last failure 2026-07-29 (21d ago). Other state entries (autoresearch/strategy-builder/soul-builder) are dispatch-only and not enabled — untouched.
+- **P1 — PRs/issues:** No open PRs, no open GitHub issues, none urgent.
+- **P2 — Memory flags:** Nothing new in MEMORY.md.
+- **P3 — Missing scheduled skills:** Only heartbeat is enabled (`0 8,14,20 * * *`), dispatching on schedule. No gaps.
+- **Status page:** Overall 🟡 **WATCH**, driven solely by open critical **ISS-001** (heartbeat gateway zero-token) — effectively recovered (21d since last failure), a candidate for skill-repair to close. Token pulse omitted (no token-report article present).
 
 **Files modified:**
-- `docs/status.md` — regenerated (Updated 2026-08-18 20:14 UTC, next run 08:00 UTC, 1 open issue)
-- `memory/logs/2026-08-18.md` — appended 20:00-slot entry
+- `docs/status.md` — regenerated public status page (WATCH, next run 14:00 UTC)
+- `memory/logs/2026-08-19.md` — logged the run
 
-**No notification sent** — nothing new or worsening; ISS-001 already tracked and within the 48h dedup window.
+**Follow-up:** ISS-001 stays open but is stale/recovered — a repair skill (skill-repair) should close it; heartbeat as a health skill doesn't close issues itself.
 
-**Follow-up:** ISS-001 has had no recurrence in 20 days — worth a `skill-repair`/`autoresearch` pass to formally resolve it.
+Note: shell output redirection (`>>`) is sandbox-blocked in this environment — used the Write tool for the log file instead. The `docs/status.md` change lands on `main` via the workflow's auto-commit step.

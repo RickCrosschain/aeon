@@ -1,20 +1,22 @@
-Heartbeat complete.
+Heartbeat complete. Fleet is healthy — no notification needed.
 
 ## Summary
 
-Ran the `heartbeat` skill (20:00 UTC slot, 2026-08-25). All priority checks clean; no notification sent.
+Ran the `heartbeat` skill for the 2026-08-26 08:00 UTC slot. All priority checks clean:
 
-- **P0 — Failed/stuck skills:** Clean. heartbeat `last_status: success`, `consecutive_failures: 0`, success_rate 188/290 = 65% (≥50%, chronic clear), `last_success` ~5.6h ago (<36h self-check clear), `last_failed` 2026-07-29 (27d ago). No stuck/degraded skills.
+- **P0 — Failed/stuck skills:** None. `heartbeat` is `success`, `consecutive_failures: 0`, lifetime success rate 189/291 = 65% (chronic-clear), last success ~12.5h ago (self-check clear), last failure 28d ago. No stuck/degraded skills.
 - **P1 — PRs/issues:** No open PRs, no open GitHub issues.
 - **P2 — Memory flags:** Nothing new.
-- **P3 — Missing scheduled skills:** Only heartbeat enabled (`0 8,14,20 * * *`), dispatching on schedule. Next run 2026-08-26 08:00 UTC.
-- **Status page:** Overall 🟡 **WATCH**, driven solely by the one open critical issue **ISS-001** (heartbeat gateway zero-token) — effectively recovered (27d since last failure), a candidate for skill-repair to close (heartbeat as a health skill doesn't close issues). Token pulse omitted (no `articles/token-report-*.md`).
-- **Notification:** None sent — ISS-001 already tracked and within the 48h dedup window; nothing new or worse.
+- **P3 — Missing scheduled skills:** Only `heartbeat` enabled; dispatching on schedule. Next run 14:00 UTC.
+
+**Overall status: 🟡 WATCH** — driven solely by the still-open critical **ISS-001** (heartbeat gateway zero-token), which is effectively recovered (28 days since last failure) and is a candidate for `skill-repair` to close. Heartbeat as a health skill files but does not close issues.
+
+**No notification sent** — findings unchanged from the last 48h of logs (ISS-001 already tracked; within dedup window).
 
 **Files modified:**
-- `docs/status.md` — regenerated public status page (WATCH, updated 20:01 UTC, next run 08:00 UTC).
-- `memory/logs/2026-08-25.md` — appended the 20:00-slot run log.
+- `docs/status.md` — regenerated (Overall WATCH, updated 2026-08-26 08:35 UTC, next run 14:00, Token pulse omitted — no token report present)
+- `memory/logs/2026-08-26.md` — created with this run's log entry
 
-**Verdict:** `HEARTBEAT_OK · STATUS_PAGE=WATCH`
+**Follow-up:** ISS-001 remains open as the only WATCH driver; worth routing to `skill-repair` to formally close given the 28-day recovery.
 
-**Follow-up:** ISS-001 remains open despite 27 days without a heartbeat failure — worth having skill-repair review and close it, since heartbeat can't close issues itself.
+Note: an initial `>>` heredoc append to the log was blocked by the sandbox; used the Write tool instead (no impact on outcome).

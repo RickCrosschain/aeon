@@ -1,22 +1,21 @@
-Heartbeat complete. Fleet is healthy — no notification needed.
+Heartbeat complete. All priority checks green except the pre-existing tracked issue; status page regenerated.
 
 ## Summary
 
-Ran the `heartbeat` skill for the 2026-08-26 08:00 UTC slot. All priority checks clean:
+Ran the **heartbeat** skill for the 2026-08-26 14:00 slot (executed 14:25 UTC).
 
-- **P0 — Failed/stuck skills:** None. `heartbeat` is `success`, `consecutive_failures: 0`, lifetime success rate 189/291 = 65% (chronic-clear), last success ~12.5h ago (self-check clear), last failure 28d ago. No stuck/degraded skills.
-- **P1 — PRs/issues:** No open PRs, no open GitHub issues.
-- **P2 — Memory flags:** Nothing new.
-- **P3 — Missing scheduled skills:** Only `heartbeat` enabled; dispatching on schedule. Next run 14:00 UTC.
+**Checks — all clear (no notification sent):**
+- **P0 (failed/stuck skills):** clean. heartbeat `last_status: success`, `consecutive_failures: 0`, lifetime success rate 190/292 = 65% (chronic clear), last success ~5.8h ago (self-check clear), last failure 28d ago. Other three entries are dispatch-only, untouched.
+- **P1:** no open PRs, no open GitHub issues, none urgent.
+- **P2:** no new memory flags.
+- **P3:** only heartbeat enabled and dispatching on schedule; no missing skills.
 
-**Overall status: 🟡 WATCH** — driven solely by the still-open critical **ISS-001** (heartbeat gateway zero-token), which is effectively recovered (28 days since last failure) and is a candidate for `skill-repair` to close. Heartbeat as a health skill files but does not close issues.
-
-**No notification sent** — findings unchanged from the last 48h of logs (ISS-001 already tracked; within dedup window).
+**Status page:** regenerated `docs/status.md` → overall **🟡 WATCH**, driven solely by the pre-existing open critical **ISS-001** (heartbeat gateway zero-token, effectively recovered 28d since last failure — a skill-repair close candidate; heartbeat itself doesn't close issues). Token pulse omitted (no `articles/token-report-*.md`). No notification: ISS-001 already tracked and within the 48h dedup window.
 
 **Files modified:**
-- `docs/status.md` — regenerated (Overall WATCH, updated 2026-08-26 08:35 UTC, next run 14:00, Token pulse omitted — no token report present)
-- `memory/logs/2026-08-26.md` — created with this run's log entry
+- `docs/status.md` — refreshed timestamp, next-run (20:00 UTC), skill health table
+- `memory/logs/2026-08-26.md` — appended 14:00-slot run entry
 
-**Follow-up:** ISS-001 remains open as the only WATCH driver; worth routing to `skill-repair` to formally close given the 28-day recovery.
+**Follow-up:** ISS-001 remains open and is a candidate for skill-repair/autoresearch to close given the 28-day recovery, but that's out of scope for a health skill. No action needed otherwise.
 
-Note: an initial `>>` heredoc append to the log was blocked by the sandbox; used the Write tool instead (no impact on outcome).
+`HEARTBEAT_OK · STATUS_PAGE=WATCH`

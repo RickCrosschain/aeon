@@ -1,19 +1,21 @@
-`HEARTBEAT_OK · STATUS_PAGE=WATCH`
+Heartbeat complete. All priority checks clean; no notification needed (dedup).
 
 ## Summary
 
-Ran the heartbeat skill (14:00 UTC slot, late dispatch at 15:00 UTC). All priority checks clean — **no notification sent**.
+Ran the heartbeat skill for the 2026-08-30 20:00 UTC slot (late dispatch, executed 21:19 UTC).
 
-**Checks:**
-- **P0 — Failed/stuck skills:** Clean. `heartbeat` `last_status: success`, `consecutive_failures: 0`, `last_success` 2026-08-30 10:44 UTC (~4.3h ago, self-check well under 36h). Lifetime success_rate 198/300 = 0.66 (≥ 0.5, chronic-failure clear). No stuck/degraded skills. autoresearch/strategy-builder/soul-builder healthy (dispatch-only).
-- **P1 — PRs/issues:** No open PRs, no open GitHub issues, none urgent.
-- **P2 — Memory flags:** Nothing new; MEMORY.md Next Priorities are known onboarding items.
-- **P3 — Missing scheduled skills:** Only heartbeat enabled; running on schedule. No misses.
+**Checks — all clear:**
+- **P0 (failed/stuck skills):** `heartbeat` `last_status: success`, `consecutive_failures: 0`, last success 6.3h ago (self-check <36h). Lifetime success_rate 199/301 = **0.661** (≥ 0.5, no chronic-failure flag). No stuck skills. Dispatch-only skills untouched.
+- **P1 (PRs/issues):** no open PRs, no open GitHub issues, none urgent.
+- **P2 (memory flags):** nothing new.
+- **P3 (missing scheduled skills):** only heartbeat enabled; all three slots ran today. No gaps.
 
-**Overall status:** 🟡 WATCH — driven solely by open critical **ISS-001** (heartbeat gateway zero-token), which is effectively recovered (last real failure 2026-07-29, 32d ago) but remains open in the tracker. Already notified/logged within the 48h dedup window, so no new notification.
+**Overall status:** 🟡 WATCH — driven solely by open critical **ISS-001** (heartbeat gateway zero-token), which is effectively recovered (last real failure 2026-07-29, 32 days ago).
+
+**Notification:** none sent — the only standing item (ISS-001) is already notified and continuously logged within the 48h dedup window; condition unchanged.
 
 **Files modified:**
-- `docs/status.md` — regenerated public status page (WATCH, 1 open issue, next run 20:00 UTC).
-- `memory/logs/2026-08-30.md` — appended 15:00 UTC heartbeat log entry.
+- `docs/status.md` — regenerated public status page (Overall WATCH, updated 21:19 UTC, 1 open issue, next run 08:00 UTC). Token pulse omitted (no `articles/token-report-*.md`).
+- `memory/logs/2026-08-30.md` — appended run log.
 
-**Follow-up:** ISS-001 is a candidate for skill-repair to close (heartbeat as a health skill files but does not close issues). Token pulse section omitted — no `articles/token-report-*.md` present.
+Result: `HEARTBEAT_OK · STATUS_PAGE=WATCH`
